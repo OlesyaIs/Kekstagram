@@ -22,8 +22,8 @@ const AvatarsIdRange = {
   max: 6,
 };
 
-let currentCommentId = CommentsIdRange.min;
-const photosInformation = [];
+let currentCommentIdIndex = CommentsIdRange.min;
+
 
 const commentTexts = [
   'Всё отлично!',
@@ -64,14 +64,18 @@ const createComments = (array) => {
   const comments = [];
 
   for (let i = 0; i < getRandomInt(CommentsQuantity.min, CommentsQuantity.max); i++) {
+    if (currentCommentIdIndex > array.length) {
+      throw new Error('Пул id комментариев исчерпан');
+    }
+
     comments.push({
-      id: array[currentCommentId],
+      id: array[currentCommentIdIndex],
       avatar: 'img/avatar-' + getRandomInt(AvatarsIdRange.min, AvatarsIdRange.max) + '.svg',
       message: getRandomArrayElement(commentTexts),
       name: getRandomArrayElement(names),
     });
 
-    currentCommentId++;
+    currentCommentIdIndex++;
   }
 
   return comments;
@@ -79,8 +83,10 @@ const createComments = (array) => {
 
 // Создание массива объектов с информацией о фотографиях
 const createPhotosInformation = () => {
-  currentCommentId = CommentsIdRange.min;
+  const photosInformation = [];
   const commentsIDs = getNumbersArray(CommentsIdRange.min, CommentsIdRange.max);
+  currentCommentIdIndex = CommentsIdRange.min;
+
   shuffleArray(commentsIDs);
 
   for (let i = 0; i < PHOTOS_QUANTITY; i++) {
