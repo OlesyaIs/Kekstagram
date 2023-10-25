@@ -1,4 +1,5 @@
 import { createPhotosInformation } from './data.js';
+import { openPhoto } from './photo.js';
 
 const picturesData = createPhotosInformation();
 const template = document.querySelector('#picture').content;
@@ -16,6 +17,11 @@ const renderPreviews = (data) => {
     picture.querySelector('.picture__img').src = url;
     picture.querySelector('.picture__likes').textContent = likes;
     picture.querySelector('.picture__comments').textContent = comments.length;
+
+    picture.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      openPhoto(data[i]);
+    })
 
     picturesFragment.appendChild(picture);
   }
