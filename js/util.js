@@ -46,4 +46,12 @@ const shuffleArray = (array) => {
   }
 };
 
-export { getRandomInt,  checkStringLimit, getRandomArrayElement, shuffleArray, getNumbersArray };
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+const isEnterEvent = (evt) => {
+  return evt.key === 'Enter';
+};
+
+export { getRandomInt,  checkStringLimit, getRandomArrayElement, shuffleArray, getNumbersArray, isEscEvent, isEnterEvent };
