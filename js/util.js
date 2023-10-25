@@ -46,4 +46,22 @@ const shuffleArray = (array) => {
   }
 };
 
-export { getRandomInt,  checkStringLimit, getRandomArrayElement, shuffleArray, getNumbersArray };
+// Проверка на нажатие Esc
+const isEscEvent = (evt) => {
+  return evt.key === 'Escape' || evt.key === 'Esc';
+};
+
+// Проверка на нажатие Enter
+const isEnterEvent = (evt) => {
+  return evt.key === 'Enter';
+};
+
+// Создание DOM-элемента с присвоением класса
+const createElement = (elementTag, elementClass) => {
+  const element = document.createElement(elementTag);
+  element.classList.add(elementClass);
+
+  return element;
+};
+
+export { getRandomInt,  checkStringLimit, getRandomArrayElement, shuffleArray, getNumbersArray, isEscEvent, isEnterEvent, createElement };
