@@ -1,6 +1,7 @@
 import { isEscEvent } from '../util.js';
 import { scaleReset } from './scale.js';
 import { runEffects, resetEffects } from './effect.js';
+import { isDescriprionUnfocused } from './description.js';
 
 const body = document.querySelector('body');
 const imgUpload = body.querySelector('.img-upload');
@@ -14,7 +15,7 @@ const resetSettings = () => {
 };
 
 const onEscDown = (evt) => {
-  if (isEscEvent(evt)) {
+  if (isEscEvent(evt) && isDescriprionUnfocused()) {
     evt.preventDefault();
     closeImgEditForm();
   }
@@ -40,4 +41,5 @@ uploadCancelButton.addEventListener('click', (evt) => {
   evt.preventDefault();
   closeImgEditForm();
 });
+
 imgUploadInput.addEventListener('change', () => { openImgEditForm(); });
