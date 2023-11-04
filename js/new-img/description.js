@@ -105,6 +105,17 @@ hashtagInput.addEventListener('input', () => {
   }
 
   hashtagInput.reportValidity();
+
+  if (!hashtagInput.reportValidity() && hashtags.length) {
+    hashtagInput.style.boxShadow = '3px 3px red';
+  } else {
+    hashtagInput.style.boxShadow = '';
+  }
 });
 
-export { isDescriprionUnfocused };
+const resetDescription = () => {
+  hashtagInput.textContent = '';
+  commentInput.textContent = '';
+}
+
+export { isDescriprionUnfocused, resetDescription };
