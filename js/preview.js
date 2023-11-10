@@ -2,9 +2,14 @@ import { openPhoto } from './photo.js';
 
 const template = document.querySelector('#picture').content;
 const pictureTemplate = template.querySelector('.picture');
-const pictures = document.querySelector('.pictures');
+const picturesContainer = document.querySelector('.pictures');
 
 const renderPreviews = ((data) => {
+  const previousPictures = picturesContainer.querySelectorAll('.picture');
+  for (let picture of previousPictures) {
+    picture.remove();
+  }
+
   const picturesFragment = document.createDocumentFragment();
 
   data.forEach((element) => {
@@ -22,7 +27,7 @@ const renderPreviews = ((data) => {
     picturesFragment.appendChild(picture);
   });
 
-  pictures.appendChild(picturesFragment);
+  picturesContainer.appendChild(picturesFragment);
 });
 
 export { renderPreviews };

@@ -1,48 +1,64 @@
 import { isEscEvent } from '../util.js';
-import { scaleReset } from './scale.js';
+import { setScale, resetScale } from './scale.js';
 import { runEffects, resetEffects } from './effect.js';
-import { isDescriprionUnfocused, resetDescription } from './description.js';
+import { isInputsFocused, setDescription, resetDescription } from './description.js';
 
 const body = document.querySelector('body');
 const imgUpload = body.querySelector('.img-upload');
 const imgUploadInput = imgUpload.querySelector('#upload-file');
 const imgEditForm = imgUpload.querySelector('.img-upload__overlay');
 const uploadCancelButton = imgUpload.querySelector('#upload-cancel');
+const previewImg = document.querySelector('.img-upload__preview').children[0];
+const defaultUrl = previewImg.getAttribute('src');
+const previews = document.querySelectorAll('.effects__preview');
+
+const setSettings = () => {
+  setScale();
+  runEffects();
+  setDescription();
+};
 
 const resetSettings = () => {
-  scaleReset();
+  previewImg.src = defaultUrl;
+  previews.forEach((filter) => {
+    filter.style.backgroundImage = `url(${defaultUrl})`;
+  })
+  resetScale();
   resetEffects();
   resetDescription();
 };
 
 const onEscDown = (evt) => {
-  if (isEscEvent(evt) && isDescriprionUnfocused()) {
+  if (isEscEvent(evt)) {
     evt.preventDefault();
+
+    if (isInputsFocused()) {
+      return;
+    }
+
     closeImgEditForm();
   }
 };
 
 const openImgEditForm = () => {
-  runEffects();
+  setSettings();
   body.classList.add('modal-open');
   imgEditForm.classList.remove('hidden');
-
   document.addEventListener('keydown', onEscDown);
+  uploadCancelButton.addEventListener('click', onCancelButtonClick);
 };
 
 const closeImgEditForm = () => {
   body.classList.remove('modal-open');
   imgEditForm.classList.add('hidden');
-  document.removeEventListener('keydown', onEscDown);
   imgUploadInput.value = '';
+  document.removeEventListener('keydown', onEscDown);
+  uploadCancelButton.removeEventListener('click', onCancelButtonClick);
   resetSettings();
 };
 
-uploadCancelButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
+const onCancelButtonClick = () => {
   closeImgEditForm();
-});
+};
 
-imgUploadInput.addEventListener('change', () => { openImgEditForm(); });
-
-export { closeImgEditForm };
+export { openImgEditForm, closeImgEditForm };

@@ -1,12 +1,13 @@
-// Text field
+/* global _:readonly */
+
+const DEBOUNCE_TIME = 500;
 const MIN_HASHTAGS_TEXT_LENGTH = 1;
 const MAX_HASHTAGS_TEXT_LENGTH = 19;
 const MAX_HASHTAGS_QUANTITY = 5;
+const MAX_COMMENT_LENGTH = 140;
 
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentInput = document.querySelector('.text__description');
-let hashtagInputUnfocused = true;
-let commentInputUnfocused = true;
 
 const isFirstSymbolSharp = (value) => {
   return (value.charAt(0) === '#')
@@ -38,29 +39,10 @@ const isHashtagsQuantityValid = (array) => {
   if (array.length > MAX_HASHTAGS_QUANTITY) {
     return `Количество хэш-тегов должно быть не больше ${MAX_HASHTAGS_QUANTITY}`;
   }
-}
-
-const isDescriprionUnfocused = () => {
-  return hashtagInputUnfocused && commentInputUnfocused;
 };
 
-hashtagInput.addEventListener('blur', () => {
-  hashtagInputUnfocused = true;
-});
+const onHashtagInput= () => {
 
-hashtagInput.addEventListener('focus', () => {
-  hashtagInputUnfocused = false;
-});
-
-commentInput.addEventListener('blur', () => {
-  commentInputUnfocused = true;
-});
-
-commentInput.addEventListener('focus', () => {
-  commentInputUnfocused = false;
-});
-
-hashtagInput.addEventListener('input', () => {
   const uniqueHashtags = [];
   const hastageString = hashtagInput.value.toLowerCase();
   const hashtags = hastageString.split(' ').filter((hashtag) => {
@@ -105,17 +87,41 @@ hashtagInput.addEventListener('input', () => {
   }
 
   hashtagInput.reportValidity();
-
   if (!hashtagInput.reportValidity() && hashtags.length) {
     hashtagInput.style.boxShadow = '3px 3px red';
   } else {
     hashtagInput.style.boxShadow = '';
   }
-});
+};
+
+const onCommentKeydown = () => {
+  if (commentInput.value.length > MAX_COMMENT_LENGTH) {
+    commentInput.setCustomValidity('Длина комментария не может превышать ' + MAX_COMMENT_LENGTH + ' символов');
+  } else {
+    commentInput.setCustomValidity('');
+  }
+
+  commentInput.reportValidity();
+};
+
+const isInputsFocused = () => {
+  return document.activeElement === hashtagInput || document.activeElement === commentInput;
+}
+
+const debouncedOnHashtagInput = _.debounce(onHashtagInput, DEBOUNCE_TIME);
+const debouncedOnCommentKeydown = _.debounce(onCommentKeydown, DEBOUNCE_TIME);
+
+const setDescription = () => {
+  hashtagInput.addEventListener('input', debouncedOnHashtagInput);
+  commentInput.addEventListener('keydown', debouncedOnCommentKeydown);
+};
+
 
 const resetDescription = () => {
+  hashtagInput.removeEventListener('input', debouncedOnHashtagInput);
+  commentInput.removeEventListener('keydown', debouncedOnCommentKeydown);
   hashtagInput.textContent = '';
   commentInput.textContent = '';
 }
 
-export { isDescriprionUnfocused, resetDescription };
+export { isInputsFocused, setDescription, resetDescription };
