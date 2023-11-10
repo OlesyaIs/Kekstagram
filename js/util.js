@@ -44,16 +44,13 @@ const shuffleArray = (array) => {
     let j = Math.floor(Math.random() * (i + 1)); // случайный индекс от 0 до i
     [array[i], array[j]] = [array[j], array[i]];
   }
+
+  return array;
 };
 
 // Проверка на нажатие Esc
 const isEscEvent = (evt) => {
   return evt.key === 'Escape' || evt.key === 'Esc';
-};
-
-// Проверка на нажатие Enter
-const isEnterEvent = (evt) => {
-  return evt.key === 'Enter';
 };
 
 // Создание DOM-элемента с присвоением класса
@@ -64,4 +61,4 @@ const createElement = (elementTag, elementClass) => {
   return element;
 };
 
-export { getRandomInt,  checkStringLimit, getRandomArrayElement, shuffleArray, getNumbersArray, isEscEvent, isEnterEvent, createElement };
+export { getRandomInt,  checkStringLimit, getRandomArrayElement, shuffleArray, getNumbersArray, isEscEvent, createElement };

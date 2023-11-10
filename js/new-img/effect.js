@@ -1,4 +1,6 @@
-const Effects = [
+/* global noUiSlider:readonly */
+
+const effects = [
   {
     filterName: 'chrome',
     filter: 'grayscale',
@@ -51,7 +53,7 @@ const sliderElement = effectLevel.querySelector('.effect-level__slider');
 
 let currentEffect;
 
-window.noUiSlider.create(sliderElement, {
+noUiSlider.create(sliderElement, {
   start: 100,
   step: 1,
   tooltips: true,
@@ -91,28 +93,13 @@ const updatePreviewStyle = (effect, handle) => {
   });
 };
 
-const resetEffects = () => {
-  preview.classList.remove(currentEffect);
-  sliderElement.noUiSlider.off('update');
-  sliderElement.noUiSlider.updateOptions({
-    start: 100,
-    step: 1,
-    range: {
-      min: 0,
-      max: 100,
-    },
-  });
-  preview.style.filter = '';
-  effectLevelValue.value = 100;
-};
-
 const runEffects = () => {
   origin.checked = 'true';
   effectLevel.classList.add('hidden');
 
   effectsList.addEventListener('change', (evt) => {
     preview.classList.remove(currentEffect);
-    const effectSettings = Effects.find((effect) => { return effect.filterName === evt.target.value});
+    const effectSettings = effects.find((effect) => { return effect.filterName === evt.target.value});
 
     if (effectSettings) {
       effectLevel.classList.remove('hidden');
@@ -126,6 +113,21 @@ const runEffects = () => {
 
     currentEffect = `effects__preview--${evt.target.value}`;
   });
+};
+
+const resetEffects = () => {
+  preview.classList.remove(currentEffect);
+  sliderElement.noUiSlider.off('update');
+  sliderElement.noUiSlider.updateOptions({
+    start: 100,
+    step: 1,
+    range: {
+      min: 0,
+      max: 100,
+    },
+  });
+  preview.style.filter = '';
+  effectLevelValue.value = 100;
 };
 
 export { runEffects,  resetEffects };
