@@ -1,4 +1,4 @@
-/* global _:readonly */
+import _ from 'lodash';
 
 import './preview.js';
 import './new-img/new-img.js';

@@ -1,4 +1,4 @@
-/* global _:readonly */
+import _ from 'lodash';
 
 const DEBOUNCE_TIME = 500;
 const MIN_HASHTAGS_TEXT_LENGTH = 1;
