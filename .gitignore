@@ -5,7 +5,7 @@
 *.pdf
 *.psd
 *.sublime*
-build/*/*.bindle*
+build/js
 build/css/*node_modules.css*
 build/index.html
 node_modules/
