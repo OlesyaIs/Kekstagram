@@ -1,4 +1,5 @@
-/* global noUiSlider:readonly */
+import noUiSlider from 'nouislider';
+import 'nouislider/dist/nouislider.css';
 
 const effects = [
   {
@@ -56,7 +57,7 @@ let currentEffect;
 noUiSlider.create(sliderElement, {
   start: 100,
   step: 1,
-  tooltips: true,
+  tooltips: false,
   connect: 'lower',
   format: {
     to: function (value) {
