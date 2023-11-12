@@ -5,7 +5,9 @@
 *.pdf
 *.psd
 *.sublime*
-build/*.bindle*
+build/*/*.bindle*
+build/css/*node_modules.css*
+build/index.html
 node_modules/
 npm-debug.log*
 Thumbs.db
